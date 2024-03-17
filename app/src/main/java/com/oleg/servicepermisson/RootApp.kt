@@ -11,6 +11,7 @@ class RootApp : Application() {
     companion object {
         const val SERVICE_NAME = "com.oleg.service_permission"
         const val NOTIFICATION_CHANNEL_ID = "com.oleg.service_permission.notification_channel_id"
+        const val SERVICE_EXTRA_INFO_TIMER = "com.oleg.service_permission_timer_info"
 
         private var appInstance: RootApp? = null
 

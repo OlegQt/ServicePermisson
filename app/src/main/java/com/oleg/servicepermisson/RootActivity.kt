@@ -46,12 +46,18 @@ class RootActivity : AppCompatActivity() {
                 startForegroundService()
             }
             thread.start()
+
+            viewModel.startServiceTimer()
         }
     }
 
     private fun setUpObservers() {
         viewModel.errorMessage.observe(this) {
             showSnackMessage(message = it)
+        }
+
+        viewModel.serviceTimer.observe(this){time->
+            supportActionBar?.subtitle = "service time = $time"
         }
     }
 

@@ -1,17 +1,20 @@
 package com.oleg.servicepermisson
 
-import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.markodevcic.peko.PermissionRequester
 import com.markodevcic.peko.PermissionResult
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class RootViewModel : ViewModel() {
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage = _errorMessage as LiveData<String>
+
+    private val _serviceTimer = MutableLiveData<Long>(0)
+    val serviceTimer = _serviceTimer as LiveData<Long>
 
     fun checkPermission(permissionName: String) {
         val requester = PermissionRequester.instance()
@@ -27,5 +30,19 @@ class RootViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun startServiceTimer() {
+        viewModelScope.launch {
+            while (true) {
+                delay(SERVICE_TIMER_DELAY)
+                val currentTimerPos: Long = _serviceTimer.value ?: 0L
+                _serviceTimer.value = currentTimerPos + 1
+            }
+        }
+    }
+
+    companion object {
+        const val SERVICE_TIMER_DELAY = 100L
     }
 }
